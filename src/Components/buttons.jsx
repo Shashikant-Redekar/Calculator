@@ -14,12 +14,20 @@ const Calculator = function (){
         for(var i=0; i < input1.length; i++ ){
             if(input1[i] === '.')
                 flag = true;
+            if(input1[i] === '+')
+                flag = false;
         }
         if(!flag){
             let num = input1;
             num = num + dot;
             setInput1(num);
         }
+    }
+
+    const handleCalculate = (input1) => {
+        let result = eval(input1);
+        console.log(result)
+        setInput1(result);
     }
 
     return(
@@ -49,13 +57,13 @@ const Calculator = function (){
                 <button onClick={() => handleButtonClick(1)}>1</button>
                 <button onClick={() => handleButtonClick(2)}>2</button>
                 <button onClick={() => handleButtonClick(3)}>3</button>
-                <button>+</button>
+                <button onClick={() => handleButtonClick('+')}>+</button>
             </div>
             <div>
                 <button onClick={() => handleDotClick('.')}>.</button>
                 <button onClick={() => handleButtonClick(0)}>0</button>
                 <button>/</button>
-                <button>=</button>
+                <button onClick={() => handleCalculate(input1)}>=</button>
             </div>
         </div>
     )
