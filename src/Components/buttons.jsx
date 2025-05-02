@@ -44,7 +44,37 @@ const Calculator = function (){
         const precedence = { '+': 1, '-': 1, 'x': 2, '/': 2 };
         let pflag = 0;
   
-        const elements = input1.match(/\d+(\.\d+)?|\+|\-|\x|\/|\(|\)/g);
+        //const elements = input1.match(/\d+(\.\d+)?|\+|\-|\x|\/|\(|\)/g);
+        let elements = []
+        for (var i =0; i< input1.length; i++){
+            if(input1[i] === '-' && i === 0){
+              let var1 = input1[0] + input1[1];
+              i++;
+              while(!isNaN(input1[i+1]) || input1[i+1] === '.'){
+                var1 = var1 + input1[i+1];
+                i++;
+              }
+              elements.push(var1);
+            }else if(input1[i] === '-' && input1[i-1] === '('){
+              let var1 = input1[i] + input1[i+1];
+              i++;
+              while(!isNaN(input1[i+1]) || input1[i+1] === '.'){
+                var1 = var1 + input1[i+1];
+                i++;
+              }
+              elements.push(var1);
+            }else if(!isNaN(input1[i])){
+              let var1 = '';
+              while(!isNaN(input1[i]) || input1[i] === '.'){
+                var1 = var1 + input1[i];
+                i++;
+              }
+              i--;
+              elements.push(var1);
+            }else{
+              elements.push(input1[i]);
+            }
+          }
         console.log(elements)
         if (!elements) return [];
   
@@ -109,7 +139,7 @@ const Calculator = function (){
 
     const handleCalculate = (input1) => {
         let result = output(input1);
-        if(result === Infinity) result = 'Cannot divide by 0';
+        if(result === Infinity || result === ('-'+Infinity)) result = 'Cannot divide by 0';
         else if(result === NaN) result = 'Error';
         setInput1(result);
     }
