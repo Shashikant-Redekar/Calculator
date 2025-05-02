@@ -11,7 +11,6 @@ const Calculator = function (){
         }else if(input1.length !== 0 && isNaN(input1[input1.length - 1]) && input1[input1.length -1] !== '(' && input1[input1.length -1] !== ')' && isNaN(number) && input1[number] !== '(' && input1[number] !== ')'){
             let num = input1;
             num = num.slice(0,-1);
-            console.log(num);
             num = num + number;
             setInput1(num);
         }else if(input1.length === 0 && isNaN(number) && number !== '(' && number !== ')'){
@@ -46,6 +45,7 @@ const Calculator = function (){
         let pflag = 0;
   
         const elements = input1.match(/\d+(\.\d+)?|\+|\-|\x|\/|\(|\)/g);
+        console.log(elements)
         if (!elements) return [];
   
         for(const element of elements){
@@ -132,7 +132,6 @@ const Calculator = function (){
             let num = input1;
             num = num + '(';
             setInput1(num);
-            console.log(flag1);
         }else if ((!isNaN(input1[input1.length - 1]) || input1[input1.length - 1] === ')') && flag1 === 0){
             let num = input1;
             num = num + 'x(';
@@ -144,15 +143,23 @@ const Calculator = function (){
         }
     }
 
+    const handleBackspace = (input1) => {
+        setInput1(input1.slice(0,-1));
+    }
+
+    const handleClear = () => {
+        setInput1('');
+    }
+
     return(
         <div>
             <div>
                 <input type="text" value={input1} disabled></input>
             </div>
             <div>
-                <button>C</button>
+                <button onClick={() => handleClear(input1)}>C</button>
                 <button onClick={() => handleBracket()}>()</button>
-                <button>B</button>
+                <button onClick={() => handleBackspace(input1)}>B</button>
                 <button onClick={() => handleButtonClick('/')}>/</button>
             </div>
             <div>
