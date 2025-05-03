@@ -1,7 +1,10 @@
-import { useState } from "react"
+import { useState } from "react";
+import '../Styling/cal.scss';
+import useless from '../yoshi-tongue.mp3';
 
 const Calculator = function (){
     let [input1, setInput1] = useState('');
+    const clickSound = new Audio(useless);
 
     const handleButtonClick = (number) => {
         if(input1[input1.length -1] === ')' && !isNaN(number)){
@@ -75,7 +78,6 @@ const Calculator = function (){
               elements.push(input1[i]);
             }
           }
-        console.log(elements)
         if (!elements) return [];
   
         for(const element of elements){
@@ -181,40 +183,45 @@ const Calculator = function (){
         setInput1('');
     }
 
+    const uselessButton = () => {
+        clickSound.currentTime = 0; // rewind to start
+        clickSound.play();
+    }
+
     return(
-        <div>
+        <div className="calculator">
             <div>
-                <input type="text" value={input1} disabled></input>
+                <input className='display' type="text" value={input1} disabled></input>
+            </div>
+            <div className="buttonColumn">
+                <button onClick={() => handleClear(input1)} className="button_c">C</button>
+                <button onClick={() => handleBracket()} className="button_b">( )</button>
+                <button onClick={() => handleBackspace(input1)} className="button_b">&lt;-</button>
+                <button onClick={() => handleButtonClick('/')} className="button_op">/</button>
             </div>
             <div>
-                <button onClick={() => handleClear(input1)}>C</button>
-                <button onClick={() => handleBracket()}>()</button>
-                <button onClick={() => handleBackspace(input1)}>B</button>
-                <button onClick={() => handleButtonClick('/')}>/</button>
+                <button onClick={() => handleButtonClick(7)} className="button">7</button>
+                <button onClick={() => handleButtonClick(8)} className="button">8</button>
+                <button onClick={() => handleButtonClick(9)} className="button">9</button>
+                <button onClick={() => handleButtonClick('x')} className="button_op">x</button>
             </div>
             <div>
-                <button onClick={() => handleButtonClick(7)}>7</button>
-                <button onClick={() => handleButtonClick(8)}>8</button>
-                <button onClick={() => handleButtonClick(9)}>9</button>
-                <button onClick={() => handleButtonClick('x')}>x</button>
+                <button onClick={() => handleButtonClick(4)} className="button">4</button>
+                <button onClick={() => handleButtonClick(5)} className="button">5</button>
+                <button onClick={() => handleButtonClick(6)} className="button">6</button>
+                <button onClick={() => handleButtonClick('-')} className="button_op">-</button>
             </div>
             <div>
-                <button onClick={() => handleButtonClick(4)}>4</button>
-                <button onClick={() => handleButtonClick(5)}>5</button>
-                <button onClick={() => handleButtonClick(6)}>6</button>
-                <button onClick={() => handleButtonClick('-')}>-</button>
+                <button onClick={() => handleButtonClick(1)} className="button">1</button>
+                <button onClick={() => handleButtonClick(2)} className="button">2</button>
+                <button onClick={() => handleButtonClick(3)} className="button">3</button>
+                <button onClick={() => handleButtonClick('+')} className="button_op">+</button>
             </div>
             <div>
-                <button onClick={() => handleButtonClick(1)}>1</button>
-                <button onClick={() => handleButtonClick(2)}>2</button>
-                <button onClick={() => handleButtonClick(3)}>3</button>
-                <button onClick={() => handleButtonClick('+')}>+</button>
-            </div>
-            <div>
-                <button >😛</button>
-                <button onClick={() => handleButtonClick(0)}>0</button>
-                <button onClick={() => handleDotClick('.')}>.</button>
-                <button onClick={() => handleCalculate(input1)}>=</button>
+                <button className="button" onClick={() => uselessButton()}>😛</button>
+                <button onClick={() => handleButtonClick(0)} className="button">0</button>
+                <button onClick={() => handleDotClick('.')} className="button">.</button>
+                <button onClick={() => handleCalculate(input1)} className="button_eq">=</button>
             </div>
         </div>
     )
